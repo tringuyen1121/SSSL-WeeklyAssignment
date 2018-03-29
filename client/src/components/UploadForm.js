@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class UploadForm extends Component {
     constructor(props) {
@@ -21,7 +22,19 @@ class UploadForm extends Component {
 
         const data = new FormData(event.target);
         const image = event.target.querySelector('input[type=file]').files[0];
+        data.append('coordinates', JSON.stringify({lat: 24.9079786, lng: 60.3196781}));
         data.append('file', image);
+
+        const url = '/new';
+
+        axios({
+            method: 'post',
+            url: url,
+            data: data,
+            config: { headers: { 'Content-Type': 'multipart/form-data'}}
+        })
+        .then((res) => {console.log(res);})
+        .catch((err) => {console.log(err);});
     }
 
     render() {
@@ -33,6 +46,7 @@ class UploadForm extends Component {
                         <label htmlFor="category"><b>Category</b></label>
                         <input
                             name="category"
+                            id="category"
                             type="text"
                             placeholder="Enter category"
                             className="form-control" />
@@ -41,6 +55,7 @@ class UploadForm extends Component {
                         <label htmlFor="title"><b>Title</b></label>
                         <input
                             name="title"
+                            id="title"
                             type="text"
                             className="form-control" />
                     </div>
@@ -48,13 +63,14 @@ class UploadForm extends Component {
                         <label htmlFor="description"><b>Description</b></label>
                         <textarea
                             name="description"
+                            id="description"
                             rows="3"
                             className="form-control" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="image"><b>Image</b></label>
                         <input
-                            name="image"
+                            id="image"
                             type="file"
                             className="form-control" />
                     </div>

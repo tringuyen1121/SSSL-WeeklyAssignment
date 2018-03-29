@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'underscore';
+import axios from 'axios';
 import './../style/app.css';
 
 import ImageCard from './ImageCard';
@@ -61,13 +62,13 @@ class App extends Component {
   //To be in a service
   fetchData() {
     const self = this;
-    fetch('https://raw.githubusercontent.com/tringuyen1121/NodeJS-WeekAssignment1/master/src/data.json')
-      .then((response) => response.json())
-      .then(data => {
-        self.setState({ picArray: data });
+    axios.get('/images')
+      .then((response) => {
+        console.log(response);
+        self.setState({ picArray: response.data });
       })
       .catch((error) => {
-        console.log('Error:' + error.message);
+        console.log(error);
       });
   }
 
